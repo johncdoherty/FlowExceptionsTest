@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FlowExceptionsTest.MainPage"
+             Title="FlowExceptionsToTaskScheduler Test">
+
+    <ScrollView>
+        <VerticalStackLayout Spacing="25" Padding="30,0" VerticalOptions="Center">
+
+            <Label 
+                Text="FlowExceptionsToTaskScheduler Test"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="32"
+                HorizontalOptions="Center" />
+
+            <Label 
+                Text="This app tests whether CommunityToolkit.Mvvm's FlowExceptionsToTaskScheduler parameter works."
+                FontSize="16"
+                HorizontalOptions="Center"
+                TextColor="Gray" />
+
+            <BoxView HeightRequest="2" Color="LightGray" Margin="0,20,0,20" />
+
+            <!-- Test Results Display -->
+            <Label 
+                x:Name="ResultLabel"
+                Text="{Binding ResultText}"
+                FontSize="14"
+                HorizontalOptions="Center"
+                TextColor="{Binding ResultColor}"
+                FontAttributes="Bold"
+                IsVisible="{Binding HasResult}" />
+
+            <BoxView HeightRequest="2" Color="LightGray" Margin="0,20,0,20" />
+
+            <!-- Test 1: WITH FlowExceptionsToTaskScheduler -->
+            <Label 
+                Text="Test 1: WITH FlowExceptionsToTaskScheduler"
+                FontSize="20"
+                FontAttributes="Bold"
+                HorizontalOptions="Center" />
+            
+            <Label 
+                Text="Expected: Exception caught by TaskScheduler.UnobservedTaskException (app continues)"
+                FontSize="14"
+                HorizontalOptions="Center"
+                TextColor="Green" />
+
+            <Button 
+                x:Name="TestWithFlowButton"
+                Text="Throw Exception WITH FlowExceptions"
+                Command="{Binding ThrowWithFlowExceptionsCommand}"
+                HorizontalOptions="Center"
+                BackgroundColor="Green"
+                TextColor="White"
+                Padding="20,10" />
+
+            <BoxView HeightRequest="2" Color="LightGray" Margin="0,20,0,20" />
+
+            <!-- Test 2: WITHOUT FlowExceptionsToTaskScheduler -->
+            <Label 
+                Text="Test 2: WITHOUT FlowExceptionsToTaskScheduler"
+                FontSize="20"
+                FontAttributes="Bold"
+                HorizontalOptions="Center" />
+            
+            <Label 
+                Text="Expected: App may crash (or caught by MAUI handler)"
+                FontSize="14"
+                HorizontalOptions="Center"
+                TextColor="Red" />
+
+            <Button 
+                x:Name="TestWithoutFlowButton"
+                Text="Throw Exception WITHOUT FlowExceptions"
+                Command="{Binding ThrowWithoutFlowExceptionsCommand}"
+                HorizontalOptions="Center"
+                BackgroundColor="Red"
+                TextColor="White"
+                Padding="20,10" />
+
+            <BoxView HeightRequest="2" Color="LightGray" Margin="0,20,0,20" />
+
+            <!-- Test 3: Async Void (for comparison) -->
+            <Label 
+                Text="Test 3: Async Void (for comparison)"
+                FontSize="20"
+                FontAttributes="Bold"
+                HorizontalOptions="Center" />
+            
+            <Label 
+                Text="Expected: Goes to AppDomain.UnhandledException (may crash)"
+                FontSize="14"
+                HorizontalOptions="Center"
+                TextColor="Orange" />
+
+            <Button 
+                x:Name="TestAsyncVoidButton"
+                Text="Throw Exception in Async Void"
+                Clicked="OnAsyncVoidTest"
+                HorizontalOptions="Center"
+                BackgroundColor="Orange"
+                TextColor="White"
+                Padding="20,10" />
+
+            <BoxView HeightRequest="2" Color="LightGray" Margin="0,20,0,20" />
+
+            <!-- Force GC Button -->
+            <Label 
+                Text="After clicking Test 1, wait 2 seconds then click this:"
+                FontSize="14"
+                HorizontalOptions="Center"
+                TextColor="Gray" />
+
+            <Button 
+                x:Name="ForceGCButton"
+                Text="Force Garbage Collection"
+                Command="{Binding ForceGCCommand}"
+                HorizontalOptions="Center"
+                BackgroundColor="Purple"
+                TextColor="White"
+                Padding="20,10" />
+
+            <Label 
+                Text="(TaskScheduler.UnobservedTaskException fires when Task is GC'd)"
+                FontSize="12"
+                HorizontalOptions="Center"
+                TextColor="Gray" />
+
+            <BoxView HeightRequest="2" Color="LightGray" Margin="0,20,0,20" />
+
+            <!-- Instructions -->
+            <Label 
+                Text="📋 Instructions:"
+                FontSize="18"
+                FontAttributes="Bold"
+                HorizontalOptions="Start" />
+
+            <Label FontSize="14" HorizontalOptions="Start">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="1. Watch Debug Output window&#x0a;" />
+                        <Span Text="2. Click 'Test 1' (Green button)&#x0a;" />
+                        <Span Text="3. Wait 2-3 seconds&#x0a;" />
+                        <Span Text="4. Click 'Force GC' (Purple button)&#x0a;" />
+                        <Span Text="5. Check Debug Output for ✅ SUCCESS message&#x0a;" />
+                        <Span Text="6. If SUCCESS → FlowExceptions WORKS!&#x0a;" />
+                        <Span Text="7. If FAILURE → FlowExceptions does NOT work" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
