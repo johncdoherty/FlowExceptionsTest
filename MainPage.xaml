@@ -33,93 +33,187 @@
 
             <BoxView HeightRequest="2" Color="LightGray" Margin="0,20,0,20" />
 
-            <!-- Test 1: WITH FlowExceptionsToTaskScheduler -->
             <Label 
-                Text="Test 1: WITH FlowExceptionsToTaskScheduler"
+                Text="✅ WITH FlowExceptionsToTaskScheduler = true"
                 FontSize="20"
                 FontAttributes="Bold"
-                HorizontalOptions="Center" />
-            
-            <Label 
-                Text="Expected: Exception caught by TaskScheduler.UnobservedTaskException (app continues)"
-                FontSize="14"
-                HorizontalOptions="Center"
+                HorizontalOptions="Start"
                 TextColor="Green" />
 
+            <!-- Test 1: Async Task WITH -->
             <Button 
-                x:Name="TestWithFlowButton"
-                Text="Throw Exception WITH FlowExceptions"
+                Text="1️⃣ Async Task + FlowExceptions"
                 Command="{Binding ThrowWithFlowExceptionsCommand}"
-                HorizontalOptions="Center"
+                HorizontalOptions="Fill"
                 BackgroundColor="Green"
                 TextColor="White"
-                Padding="20,10" />
+                Margin="0,5" />
+
+            <!-- Test 3: Sync Task WITH -->
+            <Button 
+                Text="3️⃣ Sync Task + FlowExceptions"
+                Command="{Binding ThrowSyncWithFlowExceptionsCommand}"
+                HorizontalOptions="Fill"
+                BackgroundColor="Green"
+                TextColor="White"
+                Margin="0,5" />
+
+            <!-- Test 5: Nested WITH -->
+            <Button 
+                Text="5️⃣ Nested Async + FlowExceptions"
+                Command="{Binding ThrowNestedWithFlowExceptionsCommand}"
+                HorizontalOptions="Fill"
+                BackgroundColor="Green"
+                TextColor="White"
+                Margin="0,5" />
+
+            <!-- Test 6: Task.Run WITH -->
+            <Button 
+                Text="6️⃣ Task.Run + FlowExceptions"
+                Command="{Binding ThrowInTaskRunWithFlowExceptionsCommand}"
+                HorizontalOptions="Fill"
+                BackgroundColor="Green"
+                TextColor="White"
+                Margin="0,5" />
+
+            <!-- Test 7: Fire-and-forget WITH -->
+            <Button 
+                Text="7️⃣ Fire-and-Forget + FlowExceptions"
+                Command="{Binding FireAndForgetWithFlowExceptionsCommand}"
+                HorizontalOptions="Fill"
+                BackgroundColor="Green"
+                TextColor="White"
+                Margin="0,5" />
+
+            <!-- Test 8: Immediate throw WITH -->
+            <Button 
+                Text="8️⃣ Immediate Throw + FlowExceptions"
+                Command="{Binding ThrowImmediateWithFlowExceptionsCommand}"
+                HorizontalOptions="Fill"
+                BackgroundColor="Green"
+                TextColor="White"
+                Margin="0,5" />
+
+            <Label 
+                Text="✅ Expected: All should go to TaskScheduler handler"
+                FontSize="12"
+                HorizontalOptions="Center"
+                TextColor="Green"
+                FontAttributes="Italic"
+                Margin="0,10,0,0" />
 
             <BoxView HeightRequest="2" Color="LightGray" Margin="0,20,0,20" />
 
-            <!-- Test 2: WITHOUT FlowExceptionsToTaskScheduler -->
             <Label 
-                Text="Test 2: WITHOUT FlowExceptionsToTaskScheduler"
+                Text="❌ WITHOUT FlowExceptionsToTaskScheduler"
                 FontSize="20"
                 FontAttributes="Bold"
-                HorizontalOptions="Center" />
-            
-            <Label 
-                Text="Expected: App may crash (or caught by MAUI handler)"
-                FontSize="14"
-                HorizontalOptions="Center"
+                HorizontalOptions="Start"
                 TextColor="Red" />
 
+            <!-- Test 2: Async Task WITHOUT -->
             <Button 
-                x:Name="TestWithoutFlowButton"
-                Text="Throw Exception WITHOUT FlowExceptions"
+                Text="2️⃣ Async Task WITHOUT FlowExceptions"
                 Command="{Binding ThrowWithoutFlowExceptionsCommand}"
-                HorizontalOptions="Center"
+                HorizontalOptions="Fill"
                 BackgroundColor="Red"
                 TextColor="White"
-                Padding="20,10" />
+                Margin="0,5" />
+
+            <!-- Test 4: Sync Task WITHOUT -->
+            <Button 
+                Text="4️⃣ Sync Task WITHOUT FlowExceptions"
+                Command="{Binding ThrowSyncWithoutFlowExceptionsCommand}"
+                HorizontalOptions="Fill"
+                BackgroundColor="Red"
+                TextColor="White"
+                Margin="0,5" />
+
+            <Label 
+                Text="❌ Expected: May crash or AppDomain handler"
+                FontSize="12"
+                HorizontalOptions="Center"
+                TextColor="Red"
+                FontAttributes="Italic"
+                Margin="0,10,0,0" />
 
             <BoxView HeightRequest="2" Color="LightGray" Margin="0,20,0,20" />
 
-            <!-- Test 3: Async Void (for comparison) -->
             <Label 
-                Text="Test 3: Async Void (for comparison)"
+                Text="⚠️ Async Void (Not a RelayCommand)"
                 FontSize="20"
                 FontAttributes="Bold"
-                HorizontalOptions="Center" />
-            
-            <Label 
-                Text="Expected: Goes to AppDomain.UnhandledException (may crash)"
-                FontSize="14"
-                HorizontalOptions="Center"
+                HorizontalOptions="Start"
                 TextColor="Orange" />
 
+            <!-- Async Void test -->
             <Button 
-                x:Name="TestAsyncVoidButton"
-                Text="Throw Exception in Async Void"
+                Text="9️⃣ Async Void Exception"
                 Clicked="OnAsyncVoidTest"
-                HorizontalOptions="Center"
+                HorizontalOptions="Fill"
                 BackgroundColor="Orange"
                 TextColor="White"
-                Padding="20,10" />
+                Margin="0,5" />
+
+            <Label 
+                Text="⚠️ Expected: AppDomain.UnhandledException"
+                FontSize="12"
+                HorizontalOptions="Center"
+                TextColor="Orange"
+                FontAttributes="Italic"
+                Margin="0,10,0,0" />
+
+            <BoxView HeightRequest="2" Color="LightGray" Margin="0,20,0,20" />
+
+            <!-- Diagnostic Test -->
+            <Label 
+                Text="🔧 Diagnostic Test (Baseline)"
+                FontSize="18"
+                FontAttributes="Bold"
+                HorizontalOptions="Start"
+                TextColor="Gray" />
+
+            <Label 
+                Text="Tests if TaskScheduler handler works at all (bypassing RelayCommand)"
+                FontSize="12"
+                HorizontalOptions="Start"
+                TextColor="Gray"
+                Margin="0,5,0,10" />
+
+            <Button 
+                Text="🔧 Test TaskScheduler Handler Directly"
+                Command="{Binding TestTaskSchedulerHandlerCommand}"
+                HorizontalOptions="Fill"
+                BackgroundColor="DarkGray"
+                TextColor="White"
+                Margin="0,5" />
+
+            <Label 
+                Text="After clicking this, wait 2 seconds then Force GC below. Should trigger TaskScheduler handler."
+                FontSize="11"
+                HorizontalOptions="Start"
+                TextColor="Gray"
+                FontAttributes="Italic"
+                Margin="0,5,0,0" />
 
             <BoxView HeightRequest="2" Color="LightGray" Margin="0,20,0,20" />
 
             <!-- Force GC Button -->
             <Label 
-                Text="After clicking Test 1, wait 2 seconds then click this:"
+                Text="After clicking any GREEN button, wait 2 seconds then:"
                 FontSize="14"
                 HorizontalOptions="Center"
-                TextColor="Gray" />
+                TextColor="Gray"
+                Margin="0,10,0,0" />
 
             <Button 
                 x:Name="ForceGCButton"
-                Text="Force Garbage Collection"
+                Text="🗑️ Force Garbage Collection"
                 Command="{Binding ForceGCCommand}"
-                HorizontalOptions="Center"
+                HorizontalOptions="Fill"
                 BackgroundColor="Purple"
                 TextColor="White"
-                Padding="20,10" />
+                Margin="0,5" />
 
             <Label 
                 Text="(TaskScheduler.UnobservedTaskException fires when Task is GC'd)"
@@ -131,7 +225,7 @@
 
             <!-- Instructions -->
             <Label 
-                Text="📋 Instructions:"
+                Text="📋 Test Instructions:"
                 FontSize="18"
                 FontAttributes="Bold"
                 HorizontalOptions="Start" />
@@ -139,13 +233,39 @@
             <Label FontSize="14" HorizontalOptions="Start">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="1. Watch Debug Output window&#x0a;" />
-                        <Span Text="2. Click 'Test 1' (Green button)&#x0a;" />
-                        <Span Text="3. Wait 2-3 seconds&#x0a;" />
-                        <Span Text="4. Click 'Force GC' (Purple button)&#x0a;" />
-                        <Span Text="5. Check Debug Output for ✅ SUCCESS message&#x0a;" />
-                        <Span Text="6. If SUCCESS → FlowExceptions WORKS!&#x0a;" />
-                        <Span Text="7. If FAILURE → FlowExceptions does NOT work" />
+                        <Span Text="1️⃣ Watch Debug Output window (Debug Console in VS Code)&#x0a;" />
+                        <Span Text="2️⃣ Click any GREEN button (tests WITH FlowExceptions)&#x0a;" />
+                        <Span Text="3️⃣ Wait 2-3 seconds&#x0a;" />
+                        <Span Text="4️⃣ Click PURPLE 'Force GC' button&#x0a;" />
+                        <Span Text="5️⃣ Check Debug Output for ✅ SUCCESS message&#x0a;&#x0a;" />
+                        <Span Text="✅ SUCCESS = TaskScheduler caught it (FlowExceptions WORKS!)&#x0a;" />
+                        <Span Text="❌ FAILURE = AppDomain caught it (FlowExceptions FAILED)&#x0a;&#x0a;" />
+                        <Span Text="Test RED buttons to see default behavior (should crash/fail)&#x0a;" />
+                        <Span Text="Test ORANGE button to see async void behavior (comparison)" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <BoxView HeightRequest="2" Color="LightGray" Margin="0,20,0,20" />
+
+            <!-- Test Coverage -->
+            <Label 
+                Text="🧪 Test Coverage:"
+                FontSize="18"
+                FontAttributes="Bold"
+                HorizontalOptions="Start" />
+
+            <Label FontSize="12" HorizontalOptions="Start" TextColor="Gray">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="✅ Test 1: Standard async/await pattern&#x0a;" />
+                        <Span Text="✅ Test 3: Synchronous Task return (no async)&#x0a;" />
+                        <Span Text="✅ Test 5: Nested async method calls&#x0a;" />
+                        <Span Text="✅ Test 6: Task.Run background work&#x0a;" />
+                        <Span Text="✅ Test 7: Fire-and-forget scenarios&#x0a;" />
+                        <Span Text="✅ Test 8: Immediate throw (before await)&#x0a;" />
+                        <Span Text="❌ Tests 2,4: Same patterns WITHOUT FlowExceptions&#x0a;" />
+                        <Span Text="⚠️  Test 9: Async void (cannot use FlowExceptions)" />
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
